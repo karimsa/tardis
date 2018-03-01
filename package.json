@@ -1,5 +1,5 @@
 {
-  "name": "tardis",
+  "name": "@karimsa/tardis",
   "version": "0.0.0",
   "description": "Transpile languages with simplicity.",
   "main": "dist/index.js",
