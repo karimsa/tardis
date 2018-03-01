@@ -1,0 +1,45 @@
+{
+  "name": "tardis",
+  "version": "0.0.0",
+  "description": "Transpile languages with simplicity.",
+  "main": "dist/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "tsc -d --target es6 --outDir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karimsa/tardis.git"
+  },
+  "keywords": [
+    "transpile",
+    "babel",
+    "compile",
+    "parse",
+    "transform"
+  ],
+  "author": "Karim Alibhai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karimsa/tardis/issues"
+  },
+  "homepage": "https://github.com/karimsa/tardis#readme",
+  "devDependencies": {
+    "@types/babel-types": "^7.0.1",
+    "babylon": "^6.18.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.2"
+  },
+  "dependencies": {
+    "@types/babel-traverse": "^6.25.3",
+    "@types/debug": "0.0.30",
+    "@types/lodash": "^4.14.104",
+    "debug": "^3.1.0",
+    "lodash": "^4.17.5"
+  },
+  "optionalDependencies": {
+    "babel-types": "^6.26.0"
+  }
+}
