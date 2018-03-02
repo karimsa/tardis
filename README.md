@@ -1,6 +1,12 @@
-# tardis
+<p align="center">
+  <img src=".github/tardis.png">
+</p>
 
-Language-agnostic transpiler library based on babel.
+<h1 align="center">TARDIS</h1>
+
+<p align="center">
+  Language-agnostic transpiler library based on babel.
+</p>
 
 ## Motivation
 
