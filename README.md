@@ -17,7 +17,7 @@ node types, parser, and generator - all of which can be manually specified.
 Install it: `npm install --save-dev @karimsa/tardis`.
 
 ```javascript
-const { transpile, fromBabylon, toJS } = require('@karimsa/tardis')
+const { transpile, fromBabylon, babelGenerator } = require('@karimsa/tardis')
 const babylon = require('babylon')
 
 transpile(`
@@ -46,13 +46,19 @@ transpile(`
   // and should return a string for the node
   // 'toJS' is a helper that wraps babel-generator to produce javascript code from nodes
   // but allows overrides
-  generator: toJS(),
+  generator: babelGenerator,
 })
+  .then(console.log)
+  .catch(console.error)
 ```
 
 Tardis offers APIs for just simple tree traversal as well as transpiling which is just a wrapper
 around the traversal API that dispatches generation on the root node (which should propagate through
 the tree if the tree is created properly).
+
+The transpiler & traversal APIs are both asynchronous to allow for asynchronous walking of the tree.
+This isn't particularly efficient but it allows you to have async checks for how you want to do node
+replacements.
 
 *Some examples are provided in [examples/](examples).*
 
