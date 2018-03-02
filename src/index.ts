@@ -3,6 +3,9 @@
  * @copyright 2018-present Karim Alibhai. All rights reserved.
  */
 
+export * from './node'
+export * from './path'
+export * from './types'
 export * from './traverse'
 export * from './transpile'
 
