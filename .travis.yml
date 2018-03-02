@@ -1,8 +1,11 @@
 language: node_js
 node_js:
 - 8
+before_deploy:
+ - npm run build
 deploy:
   provider: npm
+  skip_cleanup: true
   email: karim@alibhai.co
   api_key:
     secure: BUUeZ6KqQv3j6JRB8motAZqssDaAvja/MWzrHy0Vtw5kumWfmcRgjk9QRJVHQyZkfDEv2DcTrg8w33I+JngBQkiPRHcwNH7XGiYKo35+lOGnlaGMp6dm2BmDjTAu/C8zGsLVIOLuPM4ecb+EHXTCLeCJWl59YI41bLYNdb3OLJfMSKAXueay3WCfizUbhdc0yWjEnwmqGO7afLOJK6345GcDK5oQ5hylUDHZ1kX75V0C4CzJhZ+KcIsSS24N196o7/+lqeuvbCQsNYZGIuSeXkF1xi0f88djUuuO/iRI09sAfSt/gsmXLBoDSuQQFgOpfrvC7Ozs00XqldK8b1TtXTQBzJz/EMVGU26yqhkX5W990VCr0NdPC9WzaSuX6gsav+6Nugf9DQqYgIpdTdyLAZ4l5TNFDSU6AsZgx5kcFPC4V8kv/7va7dLPJipKB0SjI8IJ/gMtUN+Xu9fTCxPaNQ8KN0TnzmNiYeeWd8t+YtmzpwSTA7rUanW0HldFISQzzl5NsVyQdmqhcM2K/qTZwz7yftwMFKpwcTNwAspYXax9SLBtQF3OljRZ5lVzkHr1DC4MfuZOI2zQxKtfW+WpZkj2tL5DpwDpfzli9tNiiRDJS/ysSQhPcwTVhupDiTCyOcQD9q1ExyF1y3ezNFsh7+uhL0aggmEwexwcWtywKng=
