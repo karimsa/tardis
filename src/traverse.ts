@@ -7,15 +7,13 @@ import { Path } from './path'
 import { Visitor } from './node'
 import {
   Node,
-
-  SyncWalker,
+  Walker,
 
   ChildrenFinder,
   DefaultChildrenFinder,
 
   NodeValidator,
   DefaultNodeValidator,
-  AsyncWalker,
 } from './types'
 
 import { set } from 'lodash'
@@ -30,7 +28,7 @@ export type TraversalOptions = {
 
 export async function traverse(tree: Node, options: TraversalOptions): Promise<Node> {
   const validate: NodeValidator = options.validate || DefaultNodeValidator
-  const visitAll: SyncWalker | AsyncWalker = options.visitor['*']
+  const visitAll: Walker = options.visitor['*']
 
   if (!tree.children) {
     throw new Error(`Node of type ${tree.type} is missing implementation for .children() - please provide one`)
