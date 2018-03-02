@@ -5,7 +5,7 @@
 
 import { Path } from './path'
 import { Node } from './types'
-import { Visitor } from './node'
+import { Visitor, mergeVisitors } from './node'
 import { traverse } from './traverse'
 
 import * as createDebug from 'debug'
@@ -21,41 +21,36 @@ export type TranspileOptions = {
   generator?: Generator,
 }
 
+function createVisitorFromGenerator (generator: Generator): Visitor {
+  const visitor: Visitor = {}
+
+  for (const type in generator) {
+    if (generator.hasOwnProperty(type)) {
+      visitor[type] = function generate (path: Path) {
+        path.node.toString = () => {
+          debug('generating code for node %s', path.node.type)
+          return generator[type](path.node)
+        }
+      }
+    }
+  }
+
+  return visitor
+}
+
 export async function transpile (code: string, options: TranspileOptions): Promise<string> {
   const root: Node = options.parser(code)
 
-  // do node replacements / transpiling
-  if (options.visitor) {
-    await traverse(root, {
-      visitor: options.visitor,
-    })
-  }
+  const generator: Visitor = options.generator ? createVisitorFromGenerator(options.generator) : null
+  const visitor: Visitor = (
+    options.visitor && generator ?
+    mergeVisitors(generator, options.visitor) :
+    (options.visitor || generator)
+  )
 
-  // if generator provided, do some hacks to add stringification to all nodes
-  if (options.generator) {
-    const generator: Visitor = {
-      '*': function visitAll (path: Path) {
-        if (path.node.toString === {}.toString) {
-          throw new Error(`Missing implementation for ${path.node.type}.toString()`)
-        }
-      }
-    }
-
-    for (const type in options.generator) {
-      if (options.generator.hasOwnProperty(type)) {
-        generator[type] = function generate (path: Path) {
-          path.node.toString = () => {
-            debug('generating code for node %s', path.node.type)
-            return options.generator[type](path.node)
-          }
-        }
-      }
-    }
-
-    await traverse(root, {
-      visitor: generator,
-    })
-  }
+  await traverse(root, {
+    visitor,
+  })
 
   // magic
   return root.toString()
