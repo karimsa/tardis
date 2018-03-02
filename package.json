@@ -33,13 +33,16 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
+    "@types/babel-generator": "^6.25.1",
     "@types/babel-traverse": "^6.25.3",
     "@types/debug": "0.0.30",
     "@types/lodash": "^4.14.104",
+    "@types/node": "^9.4.6",
     "debug": "^3.1.0",
     "lodash": "^4.17.5"
   },
   "optionalDependencies": {
+    "babel-generator": "^6.26.1",
     "babel-types": "^6.26.0"
   }
 }
