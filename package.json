@@ -10,7 +10,7 @@
     "example": "example"
   },
   "scripts": {
-    "build": "tsc -d --target es6 --outDir ."
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
