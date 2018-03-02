@@ -1,5 +1,8 @@
 {
   "name": "@karimsa/tardis",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.0.0",
   "description": "Transpile languages with simplicity.",
   "main": "dist/index.js",
