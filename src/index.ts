@@ -3,14 +3,9 @@
  * @copyright 2018-present Karim Alibhai. All rights reserved.
  */
 
-export {
-  fromBabylon,
-} from './parsers'
+export * from './traverse'
+export * from './transpile'
 
-export {
-  traverse
-} from './traverse'
-
-export {
-  transpile
-} from './transpile'
+// some helpers for JS
+export * from './parsers'
+export * from './generators'
