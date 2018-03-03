@@ -1,6 +1,6 @@
 import fs from 'fs'
 import babylon from 'babylon'
-import { traverse, fromBabylon } from '../src'
+import { traverse, fromBabylon } from '../'
 
 const visitor = {
   StringLiteral (path) {

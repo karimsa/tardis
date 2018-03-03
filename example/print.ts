@@ -1,6 +1,6 @@
 import fs from 'fs'
 import babylon from 'babylon'
-import { transpile, fromBabylon } from '../src'
+import { transpile, fromBabylon } from '../'
 
 const jsFile = `
 function sayHello () {
