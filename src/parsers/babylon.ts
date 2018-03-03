@@ -10,6 +10,7 @@ import {
   ExpressionStatement,
   CallExpression,
   MemberExpression,
+  Node as BabylonNode,
   VISITOR_KEYS
 } from 'babel-types'
 import { get, flatten } from 'lodash'
@@ -55,7 +56,7 @@ function getChildren(node: Node): ChildResult[] {
   )
 }
 
-export function fromBabylon (tree: Node & { children: ChildrenFinder }): Node {
+export function fromBabylon (tree: BabylonNode & { children: ChildrenFinder }): Node {
   if (!tree.children) {
     tree.children = () => getChildren(tree)
 
