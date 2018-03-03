@@ -59,11 +59,11 @@ export async function traverse(tree: Node, options: TraversalOptions): Promise<N
     await visit(treePath, options.state)
   }
   
-  if (visitAll) {
+  if (treePath.node && visitAll) {
     await visitAll(treePath, options.state)
   }
 
-  if (!treePath.node.type || !validate(treePath.node)) {
+  if (treePath.node && (!treePath.node.type || !validate(treePath.node))) {
     throw new Error(`Node is using an unsupported type: "${treePath.node.type}"`)
   }
 
