@@ -5,7 +5,7 @@
   },
   "version": "0.0.10",
   "description": "Transpile languages with simplicity.",
-  "main": "dist/index.js",
+  "main": "index.js",
   "directories": {
     "example": "example"
   },
