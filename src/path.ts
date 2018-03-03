@@ -3,8 +3,11 @@
  * @copyright 2018-present Karim Alibhai. All rights reserved.
  */
 
-import { Node } from './types'
 import { set } from 'lodash'
+import * as createDebug from 'debug'
+const debug = createDebug('tardis')
+
+import { Node } from './types'
 
 function verifyNode(node: Node) {
   if (typeof node.type !== 'string' || !node.type) {
@@ -31,7 +34,7 @@ function verifyNode(node: Node) {
 export class Path {
   constructor (
     public node: Node,
-    public parent?: Node,
+    public parentPath?: Path,
     public childPath?: string
   ) {
     verifyNode(node)
@@ -55,11 +58,25 @@ export class Path {
   remove(): Path {
     this.node = undefined
 
-    if (this.parent !== undefined) {
-      set(this.parent, this.childPath, undefined)
-      verifyNode(this.parent.node)
+    if (this.parentPath !== undefined) {
+      set(this.parentPath.node, this.childPath, undefined)
+      verifyNode(this.parentPath.node)
     }
 
     return this
+  }
+
+  findParent(parentType: string): Node {
+    debug('checking %s node for parent of %s', this.node.type, parentType)
+
+    if (!this.parentPath) {
+      return
+    }
+
+    if (this.parentPath.node.type === parentType) {
+      return this.parentPath.node
+    }
+
+    return this.parentPath.findParent(parentType)
   }
 }

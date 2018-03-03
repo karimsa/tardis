@@ -25,12 +25,13 @@ export type TraversalOptions = {
   validate?: NodeValidator,
   state?: any,
   pathToNode?: string,
-  parent?: Node,
+  parentPath?: Path,
 }
 
 export async function traverse(tree: Node, options: TraversalOptions): Promise<Node> {
   const validate: NodeValidator = options.validate || DefaultNodeValidator
   const visitAll: Walker = options.visitor['*']
+  const treePath = new Path(tree, options.parentPath, options.pathToNode)
 
   if (typeof tree.children !== 'function') {
     throw new Error(`Node of type ${tree.type} is missing implementation for .children() - please provide one`)
@@ -44,28 +45,27 @@ export async function traverse(tree: Node, options: TraversalOptions): Promise<N
     debug('traversing subtree: %s', child.type)
     const newChild = await traverse(child, Object.assign({
       pathToNode: pathToChild,
-      parent: tree,
+      parentPath: treePath,
     }, options))
     debug('replacing subtree of %s in %s.%s', newChild.type, tree.type, pathToChild)
     set(tree, pathToChild, newChild)
   }
 
   const visit = options.visitor[ tree.type ]
-  const path = new Path(tree, options.parent, options.pathToNode)
 
   debug('visiting: %s (%s)', tree.type, !!visit)
 
   if (visit) {
-    await visit(path, options.state)
+    await visit(treePath, options.state)
   }
   
   if (visitAll) {
-    await visitAll(path, options.state)
+    await visitAll(treePath, options.state)
   }
 
-  if (!path.node.type || !validate(path.node)) {
-    throw new Error(`Node is using an unsupported type: "${path.node.type}"`)
+  if (!treePath.node.type || !validate(treePath.node)) {
+    throw new Error(`Node is using an unsupported type: "${treePath.node.type}"`)
   }
 
-  return path.node
+  return treePath.node
 }
