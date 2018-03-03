@@ -23,7 +23,7 @@ import {
 import * as createDebug from 'debug'
 const debug = createDebug('tardis')
 
-function getChildren(node: BabylonNode): ChildResult[] {
+function getChildren(node: TardisNode): ChildResult[] {
   function $(...paths: string[]): ChildResult[] {
     return flatten(paths.map(pathToChild => {
       const child = get(<any>node, pathToChild)
@@ -55,15 +55,19 @@ function getChildren(node: BabylonNode): ChildResult[] {
   )
 }
 
-export function fromBabylon (tree: BabylonNode & TardisNode): TardisNode {
-  if (!tree.children) {
-    tree.children = () => getChildren(tree)
+export function fromBabylon (tree: BabylonNode): TardisNode {
+  const node: TardisNode = Object.assign({
+    children: null,
+  }, tree)
 
-    for (const { child, pathToChild } of tree.children()) {
-      debug('injecting children finder into %s.%s => %s', tree.type, pathToChild, child.type)
+  if (!node.children) {
+    node.children = () => getChildren(node)
+
+    for (const { child, pathToChild } of node.children()) {
+      debug('injecting children finder into %s.%s => %s', node.type, pathToChild, child.type)
       fromBabylon(<any>child)
     }
   }
 
-  return tree
+  return node
 }

@@ -1,13 +1,16 @@
 import babylon from 'babylon'
+import { Node as BabylonNode } from 'babel-types'
 import { transpile, fromBabylon, babelGenerator } from '../src'
 
 transpile(`
   console.log('hello')
 `, {
   parser (code) {
+    const ast: BabylonNode = babylon.parse(code)
+
     // the 'fromBabylon' helper takes an AST from babylon and adds tardis extensions
     // using babel-types
-    return fromBabylon(babylon.parse(code))
+    return fromBabylon(ast)
   },
 
   visitor: {
