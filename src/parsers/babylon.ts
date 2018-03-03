@@ -12,7 +12,7 @@ import {
   Node as BabylonNode,
   VISITOR_KEYS
 } from 'babel-types'
-import { get, flatten } from 'lodash'
+import { get, set, flatten } from 'lodash'
 
 import {
   ChildrenFinder,
@@ -60,12 +60,14 @@ export function fromBabylon (tree: BabylonNode): TardisNode {
     children: null,
   }, tree)
 
+  debug('looking to inject into: %s', tree.type)
+
   if (!node.children) {
     node.children = () => getChildren(node)
 
     for (const { child, pathToChild } of node.children()) {
       debug('injecting children finder into %s.%s => %s', node.type, pathToChild, child.type)
-      fromBabylon(<any>child)
+      set(node, pathToChild, fromBabylon(<any>child))
     }
   }
 
