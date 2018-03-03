@@ -32,7 +32,7 @@ export async function traverse(tree: Node, options: TraversalOptions): Promise<N
   const validate: NodeValidator = options.validate || DefaultNodeValidator
   const visitAll: Walker = options.visitor['*']
 
-  if (!tree.children) {
+  if (typeof tree.children !== 'function') {
     throw new Error(`Node of type ${tree.type} is missing implementation for .children() - please provide one`)
   }
 
