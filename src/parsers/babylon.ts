@@ -4,7 +4,6 @@
  */
 
 import {
-  Node,
   File,
   Program,
   ExpressionStatement,
@@ -24,7 +23,7 @@ import {
 import * as createDebug from 'debug'
 const debug = createDebug('tardis')
 
-function getChildren(node: Node): ChildResult[] {
+function getChildren(node: BabylonNode): ChildResult[] {
   function $(...paths: string[]): ChildResult[] {
     return flatten(paths.map(pathToChild => {
       const child = get(<any>node, pathToChild)
@@ -56,7 +55,7 @@ function getChildren(node: Node): ChildResult[] {
   )
 }
 
-export function fromBabylon (tree: BabylonNode & { children: ChildrenFinder }): Node {
+export function fromBabylon (tree: BabylonNode & { children: ChildrenFinder }): OutNode {
   if (!tree.children) {
     tree.children = () => getChildren(tree)
 
