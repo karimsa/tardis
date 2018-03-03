@@ -1,6 +1,6 @@
-const fs = require('fs')
-const babylon = require('babylon')
-const { transpile, fromBabylon } = require('../')
+import fs from 'fs'
+import babylon from 'babylon'
+import { transpile, fromBabylon } from '../src'
 
 const jsFile = `
 function sayHello () {

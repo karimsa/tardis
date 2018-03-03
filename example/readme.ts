@@ -1,5 +1,5 @@
-const { transpile, fromBabylon, babelGenerator } = require('../')
-const babylon = require('babylon')
+import babylon from 'babylon'
+import { transpile, fromBabylon, babelGenerator } from '../src'
 
 transpile(`
   console.log('hello')
