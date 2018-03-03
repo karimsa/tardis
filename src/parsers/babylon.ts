@@ -17,7 +17,7 @@ import { get, flatten } from 'lodash'
 import {
   ChildrenFinder,
   ChildResult,
-  Node as OutNode,
+  Node as TardisNode,
 } from '../types'
 
 import * as createDebug from 'debug'
@@ -55,7 +55,7 @@ function getChildren(node: BabylonNode): ChildResult[] {
   )
 }
 
-export function fromBabylon (tree: BabylonNode & { children: ChildrenFinder }): OutNode {
+export function fromBabylon (tree: BabylonNode & TardisNode): TardisNode {
   if (!tree.children) {
     tree.children = () => getChildren(tree)
 

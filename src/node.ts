@@ -4,10 +4,15 @@
  */
 
 import { Path } from './path'
+import { Node } from './types'
 import { JSON, Walker, AsyncWalker } from './types'
 
 export type Visitor = {
   [key: string]: Walker,
+}
+
+export type Generator = {
+  [key: string]: (node: Node) => string,
 }
 
 function runWalker (walker: Walker, path: Path, state?: JSON): Promise<void> {

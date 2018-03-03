@@ -3,10 +3,14 @@
  * @copyright 2018-present Karim Alibhai. All rights reserved.
  */
 
-import { Node } from '../types'
-import generate from 'babel-generator'
-import { File as FileNode } from 'babel-types'
+import { Node as TardisNode } from '../types'
+import { Generator } from '../node'
 
-export function File (file: FileNode): string {
-  return generate(file).code
+import { File, Node as BabelNode } from 'babel-types'
+import generate from 'babel-generator'
+
+export const babelGenerator: Generator = {
+  File (file: BabelNode & TardisNode): string {
+    return generate(file).code
+  },
 }

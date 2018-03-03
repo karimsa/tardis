@@ -5,15 +5,11 @@
 
 import { Path } from './path'
 import { Node } from './types'
-import { Visitor, mergeVisitors } from './node'
+import { Visitor, Generator, mergeVisitors } from './node'
 import { traverse } from './traverse'
 
 import * as createDebug from 'debug'
 const debug = createDebug('tardis')
-
-export type Generator = {
-  [key: string]: (node: Node) => string,
-}
 
 export type TranspileOptions = {
   parser: (code: string) => Node,
