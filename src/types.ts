@@ -23,6 +23,7 @@ export type Node = {
   type: string,
   children: ChildrenFinder,
   toString?: () => string,
+  validate?: () => void,
 } & JSON
 
 export type SyncWalker = (path: Path, state?: JSON) => void

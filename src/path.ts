@@ -4,6 +4,7 @@
  */
 
 import { Node } from './types'
+import { set } from 'lodash'
 
 function verifyNode(node: Node) {
   if (typeof node.type !== 'string' || !node.type) {
@@ -21,17 +22,44 @@ function verifyNode(node: Node) {
       )
     }
   }
+
+  if (typeof node.validate === 'function') {
+    node.validate()
+  }
 }
 
 export class Path {
   constructor (
     public node: Node,
+    public parent?: Node,
+    public childPath?: string
   ) {
     verifyNode(node)
   }
 
-  replaceWith (node: Node) {
+  /**
+   * Replaces a node with a substitute node in its parent.
+   * @param node substitute node
+   * @returns {Path} this for chaining
+   */
+  replaceWith(node: Node): Path {
     verifyNode(node)
     this.node = node
+    return this
+  }
+
+  /**
+   * Removes the current node from its parent.
+   * @returns {Path} this for chaining
+   */
+  remove(): Path {
+    this.node = undefined
+
+    if (this.parent !== undefined) {
+      set(this.parent, this.childPath, undefined)
+      verifyNode(this.parent.node)
+    }
+
+    return this
   }
 }

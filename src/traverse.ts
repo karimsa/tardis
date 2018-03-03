@@ -24,6 +24,8 @@ export type TraversalOptions = {
   visitor: Visitor,
   validate?: NodeValidator,
   state?: any,
+  pathToNode?: string,
+  parent?: Node,
 }
 
 export async function traverse(tree: Node, options: TraversalOptions): Promise<Node> {
@@ -39,15 +41,17 @@ export async function traverse(tree: Node, options: TraversalOptions): Promise<N
       throw new Error(`Node is using an unsupported type: "${child.type}"`)
     }
 
-    
     debug('traversing subtree: %s', child.type)
-    const newChild = await traverse(child, options)
+    const newChild = await traverse(child, Object.assign({
+      pathToNode: pathToChild,
+      parent: tree,
+    }, options))
     debug('replacing subtree of %s in %s.%s', newChild.type, tree.type, pathToChild)
     set(tree, pathToChild, newChild)
   }
-    
+
   const visit = options.visitor[ tree.type ]
-  const path = new Path(tree)
+  const path = new Path(tree, options.parent, options.pathToNode)
 
   debug('visiting: %s (%s)', tree.type, !!visit)
 
