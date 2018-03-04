@@ -14,6 +14,7 @@ import {
 
   NodeValidator,
   DefaultNodeValidator,
+  ChildResult,
 } from './types'
 
 import { set } from 'lodash'
@@ -29,6 +30,10 @@ export type TraversalOptions = {
 }
 
 export async function traverse(tree: Node, options: TraversalOptions): Promise<Node> {
+  if (!tree || !tree.type) {
+    throw new Error('Tried to traverse invalid node')
+  }
+
   const validate: NodeValidator = options.validate || DefaultNodeValidator
   const visitAll: Walker = options.visitor['*']
   const treePath = new Path(tree, options.parentPath, options.pathToNode)
@@ -37,33 +42,61 @@ export async function traverse(tree: Node, options: TraversalOptions): Promise<N
     throw new Error(`Node of type ${tree.type} is missing implementation for .children() - please provide one`)
   }
 
-  for (const { pathToChild, child } of tree.children()) {
-    if (!child.type || !validate(child)) {
-      throw new Error(`Node is using an unsupported type: "${child.type}"`)
-    }
+  async function subtraverse (list: ChildResult[]): Promise<void> {
+    debug('subtraversing: %j', list)
 
-    debug('traversing subtree: %s', child.type)
-    const newChild = await traverse(child, Object.assign({
-      pathToNode: pathToChild,
-      parentPath: treePath,
-    }, options))
-    debug('replacing subtree of %s in %s.%s', newChild.type, tree.type, pathToChild)
-    set(tree, pathToChild, newChild)
+    for (const { pathToChild, child } of list) {
+      if (!child) {
+        throw new Error(`Missing 'child' when subtraversing children of ${tree.type}`)
+      }
+
+      if (!pathToChild) {
+        throw new Error(`Missing 'pathToChild' when subtraversing child ${child.type} of ${tree.type}`)
+      }
+
+      if (!child.type || !validate(child)) {
+        throw new Error(`Node is using an unsupported type: "${child.type}"`)
+      }
+
+      debug('traversing subtree: %s', child.type)
+      const newChild = await traverse(child, Object.assign({}, options, {
+        pathToNode: pathToChild,
+        parentPath: treePath,
+      }))
+
+      if (newChild !== child) {
+        if (newChild) {
+          debug('replacing subtree of %s in %s.%s', newChild.type, tree.type, pathToChild)
+        } else {
+          debug('removing node of type %s from %s', child.type, tree.type)
+        }
+
+        set(tree, pathToChild, newChild)
+      }
+    }
   }
 
+  // traverse the children
+  await subtraverse(tree.children())
+
+  // visit current node
   const visit = options.visitor[ tree.type ]
-
   debug('visiting: %s (%s)', tree.type, !!visit)
-
   if (visit) {
     await visit(treePath, options.state)
-  }
-  
-  if (treePath.node && visitAll) {
-    await visitAll(treePath, options.state)
+    if (!treePath.node) return
   }
 
-  if (treePath.node && (!treePath.node.type || !validate(treePath.node))) {
+  // allow visit through wildcard
+  if (visitAll) {
+    await visitAll(treePath, options.state)
+    if (!treePath.node) return
+  }
+
+  // re-process all unshifts & shifts
+  await subtraverse(treePath.added())
+
+  if (!treePath.node.type || !validate(treePath.node)) {
     throw new Error(`Node is using an unsupported type: "${treePath.node.type}"`)
   }
 
