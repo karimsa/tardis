@@ -10,7 +10,18 @@
     "example": "example"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "ava"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.js",
+      "!test/helpers/**/*.js"
+    ],
+    "concurrency": 4,
+    "failFast": true,
+    "failWithoutAssertions": true,
+    "compileEnhancements": true
   },
   "repository": {
     "type": "git",
@@ -37,6 +48,10 @@
     "@types/debug": "0.0.30",
     "@types/lodash": "^4.14.104",
     "@types/node": "^9.4.6",
+    "ava": "^0.25.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-typescript": "^7.0.0-alpha.19",
+    "babel-register": "^6.26.0",
     "babylon": "^6.18.0",
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
