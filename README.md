@@ -5,6 +5,20 @@
 <h1 align="center">TARDIS</h1>
 
 <p align="center">
+  <a href="https://travis-ci.org/karimsa/tardis">
+    <img src="https://travis-ci.org/karimsa/tardis.svg?branch=master" />
+  </a>
+
+  <a href="https://codecov.io/gh/karimsa/tardis">
+    <img src="https://codecov.io/gh/karimsa/tardis/branch/master/graph/badge.svg" />
+  </a>
+
+  <a href="https://greenkeeper.io/">
+    <img src="https://badges.greenkeeper.io/karimsa/tardis.svg">
+  </a>
+</p>
+
+<p align="center">
   Language-agnostic transpiler library based on babel.
 </p>
 
