@@ -1,6 +1,8 @@
 node_modules
 *.log
 dist
+coverage
+.nyc_output
 /*.js
 /*.js.map
 /*.d.ts

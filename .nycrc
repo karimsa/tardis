@@ -1,0 +1,18 @@
+{
+  "reporter": [
+    "lcov",
+    "html",
+    "text"
+  ],
+  "include": [
+    "*.js",
+    "generators/*.js",
+    "parsers/*.js"
+  ],
+  "require": [
+    "babel-register",
+    "babel-polyfill"
+  ],
+  "sourceMap": false,
+  "instrument": false
+}
