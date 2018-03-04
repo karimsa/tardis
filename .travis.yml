@@ -2,13 +2,13 @@ language: node_js
 node_js:
 - 8
 script:
+ - npm run build
  - npm test
  - node_modules/.bin/codecov
-before_deploy:
-- npm run build
 deploy:
   provider: npm
   email: karim@alibhai.co
+  skip_cleanup: true
   api_key:
     secure: k+OOpM3LcllxuzPEZls2+h9aerVaiugu//wugdHTwh/ZdopsPMAZ79eSF06ATRlbI5qSvrIOzgSDEmAuEQ0bwA4B1ilfv0vsvxtVp0XiUxvqzqpC+sfPmpPLcRzmZO8A+FvVaOmQJwjLWt6RKxvEw/0u9/U+zqL8pPT+4+OCsw5x4MegReAqGbbo4uXFgnAjuNLFTD7ANgPc7+LKCPJpn+gvhRJpVc75uOgrNUIhQdemwBWNx9Z8aOHVX66Ipa1nGcGlswHN7fQyzizJzYT4UQfAhH+JXCuxaIXG/ZpMLQOB+SgHnG/XvXRzRylTOzgS2hTjJ6yHqG7fb1Fw9z76Qe5mKU+DcDxkbePGm2iFFaP5VuCLG+A2u0ed2Xr2p1Ry3Wp6JRV2FXFK9DUyZRZliZAIQN7kV8/74l30y+gEA7OohSprwxu8c74zE3oQ4krmo/tTXwiSjiTpbCvZLiqB46/OX37GEh2SM66f7KIYeVOKNY10hkjPpNl6wcQZy2kXg6f4CYg4cEcGxTa4KTPoFTVPOMh8GTahKHP6cwFQl7bFBKEgBYldx7d8zTeY4R/pZ4VIfc+QUbmGCRwqeTMlDCwRFs8L493XMgNB08GmnWveNGK8fOxuTE8HJcT2lyE4Pwf2Hx+J3zwVZ/wbu67M8gaEZobcDvoOK169JsE0mIY=
   on:
