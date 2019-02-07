@@ -45,7 +45,7 @@
     "@types/babel-traverse": "^6.25.3",
     "@types/babel-types": "^7.0.1",
     "@types/babylon": "^6.16.2",
-    "@types/debug": "0.0.30",
+    "@types/debug": "4.1.0",
     "@types/lodash": "^4.14.104",
     "@types/node": "^10.3.1",
     "ava": "^0.25.0",
