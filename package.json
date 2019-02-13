@@ -42,7 +42,7 @@
   "homepage": "https://github.com/karimsa/tardis#readme",
   "devDependencies": {
     "@types/babel-generator": "^6.25.1",
-    "@types/babel-traverse": "^6.25.3",
+    "@types/babel-traverse": "6.25.4",
     "@types/babel-types": "^7.0.1",
     "@types/babylon": "^6.16.2",
     "@types/debug": "0.0.30",
